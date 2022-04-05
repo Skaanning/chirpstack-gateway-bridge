@@ -9,12 +9,25 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
-- task: DockerInstaller@0
+- task: GoTool@0
   inputs:
-    dockerVersion: '20.10.14'
+    version: '1.13'
 
-- script: | 
-    docker-compose run --rm chirpstack-gateway-bridge bash
-    make dist
-  displayName: 'Run dist'
+- script: |
+    env GOOS=linux 
+    env GOARCH=arm
+    go build -o dist/ cmd/chirpstack-gateway-bridge/main.go
+  displayName: 'build'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'dist/'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    CleanTargetFolder: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
