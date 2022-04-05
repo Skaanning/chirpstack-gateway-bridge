@@ -14,12 +14,12 @@ steps:
     version: '1.15'
 
 - script: |
-    env GOOS=linux GOARCH=arm go build -o dist/ cmd/chirpstack-gateway-bridge/main.go
+    env GOOS=linux GOARCH=arm go build -o build/ cmd/chirpstack-gateway-bridge/main.go
   displayName: 'build'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'dist/'
+    SourceFolder: 'build/'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     CleanTargetFolder: true
