@@ -10,15 +10,11 @@ pool:
 
 steps:
 
-- task: GoTool@0
+- task: DockerInstaller@0
   inputs:
-    version: '1.13'
-    
-- task: goreleaser@0
-  inputs:
-    version: 'latest'
-    distribution: 'goreleaser'
+    dockerVersion: '20.10.14'
 
 - script: | 
+    docker-compose run --rm chirpstack-gateway-bridge bash
     make dist
   displayName: 'Run dist'
