@@ -11,12 +11,10 @@ pool:
 steps:
 - task: GoTool@0
   inputs:
-    version: '1.13'
+    version: '1.15'
 
 - script: |
-    env GOOS=linux 
-    env GOARCH=arm
-    go build -o dist/ cmd/chirpstack-gateway-bridge/main.go
+    env GOOS=linux GOARCH=arm go build -o dist/ cmd/chirpstack-gateway-bridge/main.go
   displayName: 'build'
 
 - task: CopyFiles@2
