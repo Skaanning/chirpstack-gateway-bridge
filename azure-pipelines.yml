@@ -1,0 +1,23 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool: ubuntu-latest
+
+steps:
+
+- task: GoTool@0
+  inputs:
+    version: '1.13'
+    
+- task: goreleaser@0
+  inputs:
+    version: 'latest'
+    distribution: 'goreleaser'
+
+- script: | 
+    make dist
+  displayName: 'Run dist'
